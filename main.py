@@ -1,6 +1,8 @@
 from tracker import (add_session, get_total_time, delete_sessions_by_subject, get_all_sessions)
 import os
 
+MAX_DURATION = 1440
+
 def clear_screen():
     os.system("cls" if os.name== "nt" else "clear")
 
@@ -59,15 +61,14 @@ def main():
 
         if choice == 1:
             subject = get_subject_input()
-            duration = get_int_input("Duration(minutes): ", min_value=1, max_value=1440)
+            duration = get_int_input("Duration(minutes): ", min_value=1, max_value=MAX_DURATION)
             add_session(subject, duration)
             print("Study session added.")
             input("\nPress enter to continue...")
         
         elif choice == 2:
-            total_minutes = get_total_time()
-            hours = total_minutes // 60
-            minutes = total_minutes % 60
+            total = get_total_time()
+            hours, minutes = divmod(total, 60)
             print(f"Total study time: {hours}h {minutes}m")
             input("\nPress enter to continue...")
 
@@ -78,7 +79,7 @@ def main():
             deleted = delete_sessions_by_subject(subject)
 
             if deleted == 0:
-                print("No sessions found for that subject.")
+                print("No study sessions found.")
             else:
                 print(f"Deleted {deleted} session(s) for '{subject}'.")
             
@@ -94,8 +95,10 @@ def main():
             input()
         
         elif choice == 5:
-            print("Leaving...")
-            break
+            confirm = input("Are you sure you want to exit? (y/n): ").lower()
+            if confirm == "y":
+                print("Leaving...")
+                break
 
         else:
             print("Invalid option. Try again.")
