@@ -9,7 +9,8 @@ def show_menu():
     print("1. Add study session")
     print("2. Show total study time")
     print("3. Delete sessions by subject")
-    print("4. Exit")
+    print("4. Show all sessions")
+    print("5. Exit")
 
 def show_sessions():
     sessions = get_all_sessions()
@@ -54,7 +55,7 @@ def main():
     while True:
         clear_screen()
         show_menu()
-        choice = get_int_input("Choose an option: ", 1 , 4)
+        choice = get_int_input("Choose an option: ", 1 , 5)
 
         if choice == 1:
             subject = get_subject_input()
@@ -84,9 +85,17 @@ def main():
             input("\nPress enter to continue...")
         
         elif choice == 4:
-            print("Leaving.")
+            sessions = get_all_sessions()
+            if not sessions:
+                print("There are no sessions yet.")
+                input("\nPress enter to continue...")
+                continue
+            show_sessions()
+            input()
+        
+        elif choice == 5:
+            print("Leaving...")
             break
-            
 
         else:
             print("Invalid option. Try again.")
