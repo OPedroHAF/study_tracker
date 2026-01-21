@@ -1,5 +1,8 @@
 from storage import load_data, save_data
 
+def get_all_sessions():
+    return load_data
+
 def delete_sessions_by_subject(subject):
     data = load_data()
 
