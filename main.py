@@ -27,20 +27,17 @@ def show_sessions():
 
 def get_int_input(prompt, min_value=None, max_value=None):
     while True:
-        value = input(prompt)
         try:
-            value = int(value)
+            value = int(input(prompt))
             if min_value is not None and value < min_value:
                 print(f"Please enter a number greater than or equal to {min_value}.")
                 continue
             if max_value is not None and value > max_value:
                 print(f"Please enter a number less than or equal to {max_value}")
                 continue
+            return value
         except ValueError:
             print("Please enter a valid number.")
-            continue
-
-        return value
     
 def get_subject_input():
     while True:
