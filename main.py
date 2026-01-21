@@ -1,0 +1,80 @@
+from tracker import add_session, get_total_time, delete_sessions_by_subject
+import os
+
+def clear_screen():
+    os.system("cls" if os.name== "nt" else clear)
+
+def show_menu():
+    print("\nStudy Tracker")
+    print("1. Add study session")
+    print("2. Show total study time")
+    print("3. Delete sessions by subject")
+    print("4. Exit")
+
+def get_int_input(prompt, min_value=None, max_value=None):
+    while True:
+        value = input(prompt)
+        try:
+            value = int(value)
+            if min_value is not None and value < min_value:
+                print(f"Please enter a number greater than {min_value}.")
+                continue
+            if max_value is not None and value > max_value:
+                print(f"Please enter a number lesser than {max_value}")
+        except ValueError:
+            print("Please enter a valid number.")
+            continue
+
+        return value
+    
+def get_subject_input():
+    while True:
+        subject = input("Subject: ").strip()
+
+        if not subject:
+            print("Subject cannot be empty.")
+            continue
+
+        return subject
+
+
+def main():
+    while True:
+        clear_screen()
+        show_menu()
+        choice = get_int_input("Choose an option: ", 1 , 4)
+
+        if choice == 1:
+            subject = get_subject_input()
+            duration = get_int_input("Duration(minutes): ", min_value=1, max_value=1440)
+            add_session(subject, duration)
+            print("Study session added.")
+            input("\nPress enter to continue...")
+        
+        elif choice == 2:
+            total = get_total_time()
+            print(f"Total study time: {total}")
+            input("\nPress enter to continue...")
+
+        elif choice == 3:
+            subject = get_subject_input()
+            deleted = delete_sessions_by_subject(subject)
+
+            if deleted == 0:
+                print("No sessions found for that subject.")
+            else:
+                print(f"Deleted {deleted} session(s) for '{subject}.")
+            
+            input("\nPress enter to continue...")
+        
+        elif choice == 4:
+            print("Leaving.")
+            break
+            
+
+        else:
+            print("Invalid option. Try again.")
+
+
+if __name__ == "__main__":
+    main()

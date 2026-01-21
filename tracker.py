@@ -1,5 +1,17 @@
 from storage import load_data, save_data
 
+def delete_sessions_by_subject(subject):
+    data = load_data()
+
+    new_data = [
+        session for session in data if session["subject"].lower() != subject.lower()
+    ]
+
+    deleted_count = len(data) - len(new_data)
+    save_data(new_data)
+
+    return deleted_count
+
 def add_session(subject, duration):
     data = load_data()
     data.append({

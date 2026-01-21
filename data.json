@@ -1,1 +1,14 @@
-[]
+[
+    {
+        "subject": "Portuguese",
+        "duration": 6
+    },
+    {
+        "subject": "aaa",
+        "duration": 1440
+    },
+    {
+        "subject": "Portuguese",
+        "duration": 4
+    }
+]
