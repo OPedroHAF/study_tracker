@@ -19,14 +19,13 @@ def show_sessions():
 
     if not sessions:
         print("\nNo study sessions found.")
-        return
+        return False
     
     print("\nCurrent study sessions:\n")
 
     for i, session in enumerate(sessions, start=1):
-        subject = session["subject"]
-        duration = session["duration"]
-        print(f"{i}. {subject} - {duration} minutes")
+        print(f"{i}. {session["subject"]} - {session["duration"]} minutes")
+    return True
 
 def get_int_input(prompt, min_value=None, max_value=None):
     while True:
@@ -54,6 +53,7 @@ def get_subject_input():
 
 
 def main():
+    continue_msg = "\nPress enter to continue..."
     while True:
         clear_screen()
         show_menu()
@@ -64,16 +64,19 @@ def main():
             duration = get_int_input("Duration(minutes): ", min_value=1, max_value=MAX_DURATION)
             add_session(subject, duration)
             print("Study session added.")
-            input("\nPress enter to continue...")
+            input(continue_msg)
         
         elif choice == 2:
             total = get_total_time()
             hours, minutes = divmod(total, 60)
             print(f"Total study time: {hours}h {minutes}m")
-            input("\nPress enter to continue...")
+            input(continue_msg)
 
         elif choice == 3:
-            show_sessions()
+            if not show_sessions():
+                input(continue_msg)
+                continue
+
             print()
             subject = get_subject_input()
             deleted = delete_sessions_by_subject(subject)
@@ -83,16 +86,11 @@ def main():
             else:
                 print(f"Deleted {deleted} session(s) for '{subject}'.")
             
-            input("\nPress enter to continue...")
+            input(continue_msg)
         
         elif choice == 4:
-            sessions = get_all_sessions()
-            if not sessions:
-                print("There are no sessions yet.")
-                input("\nPress enter to continue...")
-                continue
             show_sessions()
-            input()
+            input(continue_msg)
         
         elif choice == 5:
             confirm = input("Are you sure you want to exit? (y/n): ").lower()
